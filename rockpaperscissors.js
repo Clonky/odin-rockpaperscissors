@@ -58,4 +58,11 @@ function game() {
     }
 }
 
-game()
+while (true) {
+    game()
+    let isContinue = prompt("Do you want to play again? (y, n)").toLowerCase();
+    if (isContinue === "y" || isContinue === "yes") {}
+    else {
+        break
+    }
+}
