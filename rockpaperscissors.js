@@ -13,56 +13,92 @@ function getComputerChoice() {
     return result
 }
 
-function isWin(player, computer, win, loss, draw) {
-    if (player === "rock" && computer === "scissors") {
-        return win();
-    }
-    else if (player === "paper" && computer === "rock") {
-        return win();
-    }
-    else if (player === "scissors" && computer === "paper") {
-       return win();
-    }
-    else if (player === computer) {
-        return draw()
-    }
-    else {
-        return loss()
-    }
+function cleanResultBanner() {
+    const result = document.querySelectorAll("#result")
+    result.forEach(item => {
+        item.remove();
+    })
 }
 
-function game() {
-    wins = 0
-    losses = 0
-    let win = () => {
-        console.log("You won!")
+function isWin(player, computer, wins, losses) {
+    if (player === "rock" && computer === "scissors") {
+        cleanResultBanner();
+        const winBanner = document.createElement("div");
+        winBanner.id = "result";
+        winBanner.textContent = "You won this round.";
+        document.body.appendChild(winBanner);
         wins += 1;
     }
-    let loss = () => {
-        console.log("You lost!")
-        losses += 1
+    else if (player === "paper" && computer === "rock") {
+        cleanResultBanner();
+        const winBanner = document.createElement("div");
+        winBanner.id = "result";
+        winBanner.textContent = "You won this round.";
+        document.body.appendChild(winBanner);
+        wins += 1;
     }
-    let draw = () => {
-        console.log("You got a draw!")
+    else if (player === "scissors" && computer === "paper") {
+        cleanResultBanner();
+        const winBanner = document.createElement("div");
+        winBanner.id = "result";
+        winBanner.textContent = "You won this round.";
+        document.body.appendChild(winBanner);
+        wins += 1;
     }
-
-    for (let i = 0; i <= 4; i++) {
-        let compChoice = getComputerChoice()
-        let playerChoice = prompt("Please choose between rock, paper or scissors.").toLowerCase()
-        console.log("You chose: " + playerChoice + "\n Computer chose: " + compChoice)
-        isWin(playerChoice, compChoice, win, loss, draw)
+    else if (player === computer) {
+        cleanResultBanner();
+        const drawBanner = document.createElement("div");
+        drawBanner.id = "result";
+        drawBanner.textContent = "This round was a draw.";
+        document.body.appendChild(drawBanner);
     }
-    console.log("You scored " + wins + " wins.");
-    if (wins > losses) {
-        console.log("You won the whole game!")
-    }
-}
-
-while (true) {
-    game()
-    let isContinue = prompt("Do you want to play again? (y, n)").toLowerCase();
-    if (isContinue === "y" || isContinue === "yes") {}
     else {
-        break
+        cleanResultBanner();
+        const lossBanner = document.createElement("div");
+        lossBanner.id = "result";
+        lossBanner.textContent= "You lost this round.";
+        document.body.appendChild(lossBanner);
+        losses += 1;
     }
+    return [wins, losses]
 }
+
+
+
+
+const buttons = document.querySelectorAll("button");
+buttons.forEach(button => {
+    button.addEventListener("mouseover", function (e) {
+        e.target.classList.add("mouseover");
+    })
+    button.addEventListener("mouseleave", function (e) {
+        e.target.classList.remove("mouseover");
+    })
+})
+
+function updateScoreboard(wins, losses) {
+    const oldScore = document.querySelector("#scoreboard");
+    if (oldScore) oldScore.remove();
+    const score = document.createElement("div");
+    score.id = "scoreboard"
+    score.textContent = `Wins: ${wins} --- Losses: ${losses}`;
+    document.body.appendChild(score);
+}
+
+function game(buttons) {
+    let counter = 0;
+    let wins = 0;
+    let losses = 0;
+    buttons.forEach(button => {
+        button.addEventListener("click", function (e) {
+            if (counter >= 4) return;
+            counter +=1;
+            let result = isWin(e.target.id, getComputerChoice(), wins, losses);
+            wins = result[0];
+            losses = result[1];
+            updateScoreboard(wins, losses);
+        })
+    })
+}
+
+game(buttons)
