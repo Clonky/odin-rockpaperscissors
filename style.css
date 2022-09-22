@@ -1,4 +1,5 @@
 body {
+    font-family: sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,12 +17,12 @@ body {
     gap: 5px;
 }
 
-button {
+img {
     background-color: dimgray;
     flex: 1;
     border: 3px solid black;
     transition: 0.5s;
-    width: 120px;
+    width: 200px;
 }
 
 .mouseover {

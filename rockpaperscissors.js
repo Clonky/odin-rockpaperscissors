@@ -66,7 +66,7 @@ function isWin(player, computer, wins, losses) {
 
 
 
-const buttons = document.querySelectorAll("button");
+const buttons = document.querySelectorAll("img");
 buttons.forEach(button => {
     button.addEventListener("mouseover", function (e) {
         e.target.classList.add("mouseover");
